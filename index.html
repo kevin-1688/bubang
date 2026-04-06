@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BÚ-BĀNG 無望</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+TC:wght@300;400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Overlays -->
+<div id="fear-vignette"></div>
+<div id="scanline"></div>
+<div id="transition-overlay"></div>
+
+<!-- ECG line (high fear) -->
+<canvas id="fear-ecg"></canvas>
+
+<!-- HUD -->
+<div id="hud">
+  <div class="hud-left">
+    <div class="hud-chapter" id="hud-chapter">Act I — 台北</div>
+    <div class="attr-dots" id="hud-attrs">
+      <div class="attr-dot" data-attr="will" title="WILL"></div>
+      <div class="attr-dot" data-attr="escape" title="ESCAPE"></div>
+      <div class="attr-dot" data-attr="endure" title="ENDURE"></div>
+      <div class="attr-dot" data-attr="adapt" title="ADAPT"></div>
+      <div class="attr-dot" data-attr="root" title="ROOT"></div>
+    </div>
+  </div>
+  <div class="hud-right">
+    <div class="meter-block">
+      <div class="meter-label">SILENCE</div>
+      <div class="meter-bar"><div class="meter-fill" id="silence-fill" style="width:0%"></div></div>
+    </div>
+    <div class="meter-block">
+      <div class="meter-label">FEAR</div>
+      <div class="meter-bar"><div class="meter-fill" id="fear-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── GAME ── -->
+<div id="game">
+
+<!-- TITLE SCREEN -->
+<div class="screen active" id="screen-title">
+  <div class="title-bg"></div>
+  <div class="title-content">
+    <div class="title-zh">無　　望</div>
+    <div class="title-main">B<span class="title-dash">Ú</span>-B<span class="title-dash">Ā</span>NG</div>
+    <div class="title-subtitle">A Narrative Fitness RPG · 1952 · Taiwan</div>
+    <div class="title-line"></div>
+    <div class="title-tagline">
+      「在一切都被剝奪的年代，身體是最後的自由。」<br>
+      <span style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.9em;color:#4A4238">In an era where everything is stripped away,<br>your body is the last frontier of freedom.</span>
+    </div>
+    <button class="btn-start" onclick="startGame()">BEGIN · 開始</button>
+  </div>
+  <div class="title-version">v3.0 · 2026 · PROTOTYPE</div>
+</div>
+
+<!-- ACT INTRO SCREEN -->
+<div class="screen" id="screen-act-intro">
+  <div class="act-intro-content">
+    <div class="act-number" id="act-number">ACT I</div>
+    <div class="act-title-zh" id="act-title-zh">台北・大稻埕</div>
+    <div class="act-title-en" id="act-title-en">Taipei · Dadaocheng</div>
+    <div class="act-divider"></div>
+    <div class="act-theme" id="act-theme">失去 · LOSS</div>
+    <button class="btn-continue" onclick="nextScene()">繼續 · CONTINUE</button>
+  </div>
+</div>
+
+<!-- NARRATIVE SCREEN -->
+<div class="screen" id="screen-narrative">
+  <div class="narrative-scene-bg">
+    <div class="scene-visual" id="scene-visual">🏙️</div>
+  </div>
+  <div class="narrative-panel">
+    <div class="scene-label" id="scene-label">Scene 1</div>
+    <div class="scene-title" id="scene-title">夜的失蹤</div>
+    <div class="narrative-text" id="narrative-text"></div>
+    <div class="choices-container" id="choices-container" style="display:none"></div>
+    <div class="consequence-box" id="consequence-box">
+      <div class="consequence-text" id="consequence-text"></div>
+      <button class="btn-next-scene" onclick="nextScene()">繼續 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCISE SCREEN -->
+<div class="screen" id="screen-exercise">
+  <div class="exercise-content">
+    <div class="exercise-scene-label" id="ex-scene-label">EXERCISE</div>
+    <div class="exercise-title" id="ex-title">偽裝工人</div>
+    <div class="exercise-setup" id="ex-setup">...</div>
+    <div class="exercise-instruction" id="ex-instruction">...</div>
+    <div class="exercise-type-label" id="ex-type-label">深蹲 SQUATS</div>
+
+    <!-- REP counter (squat/burpee) -->
+    <div id="ex-rep-area" style="display:none;flex-direction:column;align-items:center;gap:8px;">
+      <div class="rep-display" id="rep-count">0</div>
+      <div class="rep-target" id="rep-target">/ 10</div>
+    </div>
+
+    <!-- PLANK hold area -->
+    <div class="plank-hold-container" id="ex-plank-area" style="display:none">
+      <div class="plank-timer" id="plank-timer">5</div>
+      <div class="plank-bar-outer"><div class="plank-bar-fill" id="plank-bar"></div></div>
+      <div class="plank-hint">HOLD THE BUTTON · 按住不放</div>
+    </div>
+
+    <!-- BURPEE sequence dots -->
+    <div id="ex-burpee-area" style="display:none;flex-direction:column;align-items:center;gap:12px;">
+      <div class="burpee-sequence" id="burpee-dots"></div>
+      <div class="burpee-next-label" id="burpee-next">LEFT → RIGHT</div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="exercise-btn-area" id="ex-btn-area">
+      <button class="btn-exercise" id="ex-btn-main"
+        onmousedown="exerciseBtnDown()"
+        onmouseup="exerciseBtnUp()"
+        ontouchstart="exerciseBtnDown(event)"
+        ontouchend="exerciseBtnUp(event)"
+        onclick="exerciseBtnClick()">
+        ▼ ACTION
+      </button>
+      <button class="btn-exercise right-btn" id="ex-btn-right" style="display:none"
+        onclick="burpeeRight()">
+        RIGHT ▶
+      </button>
+    </div>
+    <div id="ex-btn-left-wrap" style="display:none">
+      <button class="btn-exercise left-btn" id="ex-btn-left" onclick="burpeeLeft()">
+        ◀ LEFT
+      </button>
+    </div>
+
+    <!-- Complete state -->
+    <div class="exercise-complete" id="ex-complete">
+      <div class="complete-badge">訓練完成 · EXERCISE COMPLETE</div>
+      <div class="complete-text" id="ex-complete-text">...</div>
+      <div class="attr-gain-display" id="ex-attr-gain"></div>
+      <button class="btn-continue" onclick="nextScene()">繼續 · CONTINUE</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENDING SCREEN -->
+<div class="screen" id="screen-ending">
+  <div class="ending-content">
+    <div class="ending-label">結局 · ENDING</div>
+    <div class="ending-title-zh" id="ending-title-zh">《還活著》</div>
+    <div class="ending-title-en" id="ending-title-en">Still Alive</div>
+    <div class="ending-divider" id="ending-divider"></div>
+    <div class="ending-text" id="ending-text">...</div>
+    <div class="ending-stats">
+      <div>FEAR: <span id="ending-fear">0</span></div>
+      <div>SILENCE: <span id="ending-silence">0</span></div>
+    </div>
+    <button class="btn-replay" onclick="restartGame()">再玩一次 · PLAY AGAIN</button>
+  </div>
+</div>
+
+</div><!-- /game -->
+
+<script src="bubang.js"></script>
+</body>
+</html>
