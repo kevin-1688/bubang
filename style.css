@@ -18,6 +18,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+/* Eliminate 300ms tap delay on every tappable element */
+button, a, [onclick] { touch-action: manipulation; }
+
 body {
   background: var(--surveillance);
   color: var(--text-primary);
@@ -29,7 +32,7 @@ body {
   user-select: none;
 }
 
-/* â”€â”€ NOISE TEXTURE â”€â”€ */
+/* ── NOISE TEXTURE ── */
 body::before {
   content: '';
   position: fixed;
@@ -40,7 +43,7 @@ body::before {
   opacity: 0.4;
 }
 
-/* â”€â”€ VIGNETTE OVERLAY â”€â”€ */
+/* ── VIGNETTE OVERLAY ── */
 #fear-vignette {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -50,7 +53,7 @@ body::before {
   border-radius: 0;
 }
 
-/* â”€â”€ HEARTBEAT PULSE â”€â”€ */
+/* ── HEARTBEAT PULSE ── */
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); opacity: 0.7; }
   14% { transform: scale(1.02); opacity: 1; }
@@ -94,7 +97,7 @@ body::before {
   50% { opacity: 0; }
 }
 
-/* â”€â”€ SCANLINE â”€â”€ */
+/* ── SCANLINE ── */
 #scanline {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -105,7 +108,7 @@ body::before {
   z-index: 190;
 }
 
-/* â”€â”€ GAME CONTAINER â”€â”€ */
+/* ── GAME CONTAINER ── */
 #game {
   width: 100vw;
   height: 100vh;
@@ -113,7 +116,7 @@ body::before {
   overflow: hidden;
 }
 
-/* â”€â”€ SCREENS â”€â”€ */
+/* ── SCREENS ── */
 .screen {
   display: none;
   position: absolute;
@@ -129,7 +132,7 @@ body::before {
 }
 .screen.active { display: flex; }
 
-/* â”€â”€ HUD â”€â”€ */
+/* ── HUD ── */
 #hud {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -187,7 +190,7 @@ body::before {
 #fear-fill { background: #3A1A1A; }
 #silence-fill { background: #1A0A2A; }
 
-/* â”€â”€ ATTR DOTS â”€â”€ */
+/* ── ATTR DOTS ── */
 .attr-dots {
   display: flex;
   gap: 6px;
@@ -201,7 +204,7 @@ body::before {
 }
 .attr-dot.filled { background: var(--ember); }
 
-/* â”€â”€ TITLE SCREEN â”€â”€ */
+/* ── TITLE SCREEN ── */
 #screen-title {
   background: #070709;
   overflow: hidden;
@@ -297,7 +300,7 @@ body::before {
   letter-spacing: 2px;
 }
 
-/* â”€â”€ ACT INTRO â”€â”€ */
+/* ── ACT INTRO ── */
 #screen-act-intro {
   background: var(--surveillance);
 }
@@ -360,7 +363,7 @@ body::before {
   border-color: rgba(196,98,45,0.4);
 }
 
-/* â”€â”€ NARRATIVE SCREEN â”€â”€ */
+/* ── NARRATIVE SCREEN ── */
 #screen-narrative {
   background: var(--surveillance);
   justify-content: flex-end;
@@ -503,7 +506,7 @@ body::before {
 }
 .btn-next-scene:hover { background: rgba(196,98,45,0.1); }
 
-/* â”€â”€ EXERCISE SCREEN â”€â”€ */
+/* ── EXERCISE SCREEN ── */
 #screen-exercise {
   background: var(--surveillance);
   justify-content: flex-start;
@@ -688,7 +691,7 @@ body::before {
   letter-spacing: 2px;
 }
 
-/* â”€â”€ ENDING SCREEN â”€â”€ */
+/* ── ENDING SCREEN ── */
 #screen-ending {
   background: #030305;
   overflow: hidden;
@@ -760,7 +763,7 @@ body::before {
 }
 .btn-replay:hover { border-color: rgba(196,98,45,0.4); color: var(--text-primary); }
 
-/* â”€â”€ FEAR INDICATOR â”€â”€ */
+/* ── FEAR INDICATOR ── */
 #fear-ecg {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -772,7 +775,7 @@ body::before {
 }
 #fear-ecg.visible { opacity: 1; }
 
-/* â”€â”€ TRANSITIONS â”€â”€ */
+/* ── TRANSITIONS ── */
 #transition-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -784,7 +787,7 @@ body::before {
 }
 #transition-overlay.fade-out { opacity: 1; pointer-events: all; }
 
-/* â”€â”€ MISC â”€â”€ */
+/* ── MISC ── */
 .text-ember { color: var(--ember); }
 .shimmer {
   background: linear-gradient(90deg, var(--text-dim) 0%, var(--text-primary) 50%, var(--text-dim) 100%);
@@ -805,7 +808,7 @@ body::before {
   .exercise-setup { display: none; }
 }
 
-/* â”€â”€ BURPEE â”€â”€ */
+/* ── BURPEE ── */
 .burpee-sequence {
   display: flex;
   gap: 8px;
