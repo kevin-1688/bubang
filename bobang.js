@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   BÚ-BĀNG — bubang.js  ·  Security-hardened v2
+   BǑ-BĀNG — bubang.js  ·  Security-hardened v2
    ═══════════════════════════════════════════════ */
 
 'use strict';
