@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════
--- BÚ-BĀNG 官網 — Supabase Schema  ·  Security v2
+-- BǑ-BĀNG 官網 — Supabase Schema  ·  Security v2
 -- 執行：Supabase Dashboard > SQL Editor
 -- ═══════════════════════════════════════════════════
 
