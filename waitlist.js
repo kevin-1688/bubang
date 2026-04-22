@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════
-// BÚ-BĀNG — /api/waitlist.js
+// BǑ-BĀNG — /api/waitlist.js
 // Vercel Serverless Function  ·  Security-hardened v2
 // ═══════════════════════════════════════════════════
 
